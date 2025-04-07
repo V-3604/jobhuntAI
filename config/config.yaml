@@ -1,0 +1,168 @@
+# Job Database Configuration
+
+# Collection Settings
+collection:
+  # Target companies to search for jobs
+  companies:
+    - Google
+    - Microsoft
+    - Apple
+    - Amazon
+    - Meta
+    - IBM
+    - Intel
+    - AMD
+    - Tesla
+    - SpaceX
+    - Boeing
+    - Lockheed Martin
+    - NASA
+    - General Electric
+    - Siemens
+    - Boston Dynamics
+    - Nvidia
+    - Qualcomm
+    - Texas Instruments
+    - National Instruments
+
+  # Engineering fields to focus on
+  engineering_fields:
+    - Software Engineering
+    - Computer Engineering
+    - Electrical Engineering
+    - Mechanical Engineering
+    - Aerospace Engineering
+    - Chemical Engineering
+    - Civil Engineering
+    - Biomedical Engineering
+    - Materials Science
+    - Data Science
+    - Machine Learning
+    - Artificial Intelligence
+    - Robotics
+    - Systems Engineering
+
+  # Keywords for queries
+  keywords:
+    - intern
+    - internship
+    - entry level
+    - new grad
+    - junior
+    - undergraduate
+    - student opportunity
+    - co-op
+    - university recruit
+
+  # Maximum number of results per query
+  max_results_per_query: 10
+  
+  # Search depth (pages to scan)
+  search_depth: 3
+  
+  # Collection intervals (seconds)
+  frequency: 86400  # Daily
+
+# Database Settings
+database:
+  connection_string: "mongodb://localhost:27017/"
+  database_name: "job_database"
+  collections:
+    raw_listings: "raw_listings"
+    processed_listings: "processed_listings"
+    embeddings: "embeddings"
+    companies: "companies"
+  # Database indexes
+  indexes:
+    - collection: "processed_listings"
+      fields:
+        - "title"
+        - "company"
+        - "engineering_field"
+        - "required_skills"
+      options:
+        unique: false
+    - collection: "processed_listings"
+      fields:
+        - "url"
+      options:
+        unique: true
+  # TTL for job listings (in days)
+  job_ttl_days: 30
+
+# OpenAI Settings
+openai:
+  # Default model for most tasks
+  default_model: "gpt-4"
+  # Fallback model for less complex tasks
+  fallback_model: "gpt-3.5-turbo"
+  # Model for embeddings
+  embedding_model: "text-embedding-3-large"
+  # Maximum tokens for API calls
+  max_tokens: 4096
+  # Temperature setting (0.0 to 1.0)
+  temperature: 0.2
+  # Batch size for processing
+  batch_size: 10
+  # Timeout for API calls (seconds)
+  timeout: 60
+  # Retry settings
+  max_retries: 3
+  retry_delay: 5
+
+# Updater Settings
+updater:
+  # Maximum number of job listings to keep in the database
+  max_listings: 1000
+  # Threshold for duplicate detection (0.0 to 1.0)
+  duplicate_threshold: 0.9
+  # Update frequency (seconds)
+  update_frequency: 86400  # Daily
+
+# Clustering Settings
+clustering:
+  # Target number of clusters
+  num_clusters: 10
+  # Similarity threshold for clustering (0.0 to 1.0)
+  similarity_threshold: 0.7
+  # Minimum cluster size
+  min_cluster_size: 3
+  # Update summaries on cluster changes
+  auto_update_summaries: true
+
+# Google CSE Settings
+google_cse:
+  # Results per page
+  results_per_page: 10
+  # Maximum pages to fetch
+  max_pages: 3
+  # Timeout for API calls (seconds)
+  timeout: 30
+  # Retry settings
+  max_retries: 3
+  retry_delay: 2
+  # Country restrictions (leave empty for global)
+  country: ""
+  # Language settings
+  language: "en"
+
+# Logging Settings
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  log_file: "logs/jobhunt.log"
+  rotate: true
+  max_size_mb: 10
+  backup_count: 5
+
+# API Settings (if implementing REST API)
+api:
+  host: "localhost"
+  port: 8000
+  debug: false
+  workers: 4
+  timeout: 60
+  enable_cors: true
+  allowed_origins:
+    - "http://localhost:3000"
+    - "https://your-frontend-domain.com" 
